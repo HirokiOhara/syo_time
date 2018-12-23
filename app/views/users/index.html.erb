@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>sho-time</title>
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="application.css">
+  <script src="processing.min.js"></script>
+</head>
+
+<body>
+  <div class="shitajiki">
+    <div class="title">
+      <%# <h1>It's <ruby>書<rt>show</rt></ruby> time!</h1> %>
+    </div>
+    <div class="hanshi">
+      <script type="application/processing">
+        //=====「各変数の定義」=====
+        float lineWeight = 0.6;
+        int i;
+        int count = 1;
+        String picture;
+        int R = 20;        //しずくの大きさ調整用
+        int A = 3;         //しずくの丸み調整用
+
+        //=====「初期設定」=====
+        void setup(){
+          smooth();
+          frameRate(60);
+          size(1170, 390);
+          background(250);
+          stroke( 54, 54, 54 );
+          fill(54, 54, 54);
+        }
+
+        //=====「毎回処理される箇所」=====
+        void draw() {
+          if (mousePressed) {
+            strokeWeight( lineWeight );
+            mouseDragged();
+          }
+        }
+
+        //=====「始筆」=====
+        void mousePressed() {
+          strokeWeight(2);
+          pushMatrix();
+          translate(mouseX, mouseY + 3);
+          rotate(radians(-150));
+          beginShape();
+          for (int theta = 10; theta < 361; theta++) {
+            float r = 1 / (A * sin(radians(theta)/2)+1);
+            vertex(R * r * cos(radians(theta)), R * r * sin(radians(theta)));
+          }
+          endShape(CLOSE);
+          popMatrix();
+          redraw();
+        }
+
+        //=====「運筆」=====
+        void mouseDragged() {
+          for (int i = 0; i < 10; i++) {
+            float x = random(i);
+            float y = sqrt(( sq(i) - sq(x) ));
+            line(pmouseX - x, pmouseY + y, mouseX, mouseY);              //右下&左上
+            line(pmouseX - x, pmouseY - y, mouseX, mouseY);              //右上&左下
+            line(pmouseX + x, pmouseY + y, mouseX + x, mouseY + y);      //右下
+            line(pmouseX - x, pmouseY - y, mouseX - x, mouseY - y);      //左上
+            line(pmouseX + x, pmouseY - y, mouseX + x, mouseY - y);      //右上
+            line(pmouseX - x, pmouseY + y, mouseX - x, mouseY + y);      //左下
+            line(pmouseX, pmouseY , mouseX, mouseY);
+            line(pmouseX, pmouseY + y, mouseX, mouseY);
+          }
+        }
+
+        //=====「筆先を整える」=====
+        void mouseReleased() {
+          lineWeight = 0.6;
+        }
+
+        //=====「キー操作」=====
+        void keyPressed() {               //"スペース"を押したら「リセット」
+          if(key == ' ') {
+            background(255);
+          }
+          if(key == 'r') {                //"r"を押したら墨が「朱色」になる
+            stroke( 235, 97, 1 );
+            fill( 235, 97, 1 );
+          }
+          if(key == 'b') {                //"b"を押したら「墨色」になる
+            stroke( 54, 54, 54 );
+            fill(54, 54, 54);
+          }
+        }
+      </script>
+      <canvas id="canvas"></canvas>
+    </div>
+    <ul>
+      <li>「スペースキー」で新しい半紙になります</li>
+      <li>「rキー」を押すと朱色の墨になります</li>
+      <li>「bキー」を押すと墨色の墨になります</li>
+    </ul>
+  </div>
+</body>
+</html>
