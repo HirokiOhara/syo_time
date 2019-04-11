@@ -1,24 +1,6 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+これは、筆を使った文字をweb上で書けるアプリケーションです。
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+詳しい内容はQiitaの記事 [「It's 書time! [caravanより短いコードで"書き初め"してみた]」](https://qiita.com/HirokiOhara/items/87bf989e6d2cd044207a)    
+にまとめてあります。
